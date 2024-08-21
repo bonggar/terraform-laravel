@@ -1,7 +1,7 @@
 resource "aws_lb" "this" {
-  count = var.infra_role == "http" ? 1 : 0
+  count = var.infra_role == "core" ? 1 : 0
 
-  name               = "cloudcasts-${var.infra_env}-${var.infra_role}-alb"
+  name               = "alphabet-${var.infra_env}-${var.infra_role}-alb"
   internal           = false
   load_balancer_type = "application"
 
@@ -9,18 +9,18 @@ resource "aws_lb" "this" {
   subnets         = var.alb_subnets
 
   tags = {
-    Name        = "cloudcasts-${var.infra_env}-${var.infra_role}-alb"
+    Name        = "alphabet-${var.infra_env}-${var.infra_role}-alb"
     Role        = var.infra_role
-    Project     = "cloudcasts.io"
+    Project     = "alphabet.io"
     Environment = var.infra_env
     ManagedBy   = "terraform"
   }
 }
 
 resource "aws_lb_target_group" "this" {
-  count = var.infra_role == "http" ? 1 : 0
+  count = var.infra_role == "core" ? 1 : 0
 
-  name                 = "cloudcasts-${var.infra_env}-${var.infra_role}-alb-tg"
+  name                 = "alphabet-${var.infra_env}-${var.infra_role}-alb-tg"
   port                 = 80
   protocol             = "HTTP"
   vpc_id               = var.vpc_id
@@ -32,16 +32,16 @@ resource "aws_lb_target_group" "this" {
   }
 
   tags = {
-    Name        = "cloudcasts-${var.infra_env}-${var.infra_role}-alb-tg"
+    Name        = "alphabet-${var.infra_env}-${var.infra_role}-alb-tg"
     Role        = var.infra_role
-    Project     = "cloudcasts.io"
+    Project     = "alphabet.io"
     Environment = var.infra_env
     ManagedBy   = "terraform"
   }
 }
 
 resource "aws_lb_listener" "this" {
-  count = var.infra_role == "http" ? 1 : 0
+  count = var.infra_role == "core" ? 1 : 0
 
   load_balancer_arn = aws_lb.this[0].arn
   port              = "80"
@@ -53,9 +53,9 @@ resource "aws_lb_listener" "this" {
   }
 
   tags = {
-    Name        = "cloudcasts-${var.infra_env}-${var.infra_role}-alb-listener"
+    Name        = "alphabet-${var.infra_env}-${var.infra_role}-alb-listener"
     Role        = var.infra_role
-    Project     = "cloudcasts.io"
+    Project     = "alphabet.io"
     Environment = var.infra_env
     ManagedBy   = "terraform"
   }

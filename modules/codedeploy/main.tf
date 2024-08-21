@@ -3,11 +3,11 @@
 ##
 resource "aws_codedeploy_app" "this" {
   compute_platform = "Server"
-  name             = "cloudcasts-${var.infra_env}-deploy-app"
+  name             = "alphabet-${var.infra_env}-deploy-app"
 
   tags = {
-    Name        = "cloudcasts-${var.infra_env}-deploy-app"
-    Project     = "cloudcasts.io"
+    Name        = "alphabet-${var.infra_env}-deploy-app"
+    Project     = "alphabet.io"
     Environment = var.infra_env
     ManagedBy   = "terraform"
   }
@@ -17,7 +17,7 @@ resource "aws_codedeploy_app" "this" {
 # IAM for CodeDeploy Group
 ##
 resource "aws_iam_role" "this" {
-  name = "cloudcasts-${var.infra_env}-deploy-role"
+  name = "alphabet-${var.infra_env}-deploy-role"
 
   # We only allow it to assume role for ap-southeast-1
   assume_role_policy = <<EOF
@@ -54,7 +54,7 @@ resource "aws_codedeploy_deployment_group" "this" {
 
   app_name = aws_codedeploy_app.this.name
 
-  deployment_group_name = "cloudcasts-${var.infra_env}-${each.key}-deploy-group"
+  deployment_group_name = "alphabet-${var.infra_env}-${each.key}-deploy-group"
   service_role_arn = aws_iam_role.this.arn
   deployment_config_name = "CodeDeployDefault.OneAtATime"
 
@@ -82,9 +82,9 @@ resource "aws_codedeploy_deployment_group" "this" {
   }
 
   tags = {
-    Name        = "cloudcasts-${var.infra_env}-${each.key}-deploy-group"
+    Name        = "alphabet-${var.infra_env}-${each.key}-deploy-group"
     Role        = each.key
-    Project     = "cloudcasts.io"
+    Project     = "alphabet.io"
     Environment = var.infra_env
     ManagedBy   = "terraform"
   }

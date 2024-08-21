@@ -15,8 +15,8 @@ variable "infra_env" {
 
 variable "infra_role" {
   type        = string
-  description = "Server role, e.g. http vs queue"
-  default     = "http"
+  description = "Server role, e.g. core vs admin"
+  default     = "core"
 }
 
 variable "instance_type" {

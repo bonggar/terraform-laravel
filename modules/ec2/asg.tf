@@ -4,7 +4,7 @@ resource "aws_autoscaling_group" "this" {
     version = "$Latest"
   }
 
-  name                = "cloudcasts-${var.infra_env}-${var.infra_role}-asg"
+  name                = "alphabet-${var.infra_env}-${var.infra_role}-asg"
   vpc_zone_identifier = var.asg_subnets
 
   min_size             = var.min_size # 0
@@ -12,7 +12,7 @@ resource "aws_autoscaling_group" "this" {
   desired_capacity     = var.desired_capacity # 2
   termination_policies = ["OldestInstance"]
 
-  health_check_type         = var.infra_role == "http" ? "ELB" : "EC2"
+  health_check_type         = var.infra_role == "core" ? "ELB" : "EC2"
   health_check_grace_period = 90    # Seconds
 
   lifecycle {
@@ -22,16 +22,16 @@ resource "aws_autoscaling_group" "this" {
 }
 
 resource "aws_autoscaling_attachment" "asg_attachment" {
-  count = var.infra_role == "http" ? 1 : 0
+  count = var.infra_role == "core" ? 1 : 0
 
   autoscaling_group_name = aws_autoscaling_group.this.id
   alb_target_group_arn   = aws_lb_target_group.this[0].arn
 }
 
-resource "aws_autoscaling_policy" "http" {
-  count = 0 //var.infra_role == "http" ? 1 : 0
+resource "aws_autoscaling_policy" "core" {
+  count = 0 //var.infra_role == "core" ? 1 : 0
 
-  name = "cloudcasts-${var.infra_env}-${var.infra_role}-asg-policy"
+  name = "alphabet-${var.infra_env}-${var.infra_role}-asg-policy"
   adjustment_type = "ChangeInCapacity"
   policy_type = "TargetTrackingScaling"
 

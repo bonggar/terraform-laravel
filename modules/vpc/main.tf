@@ -4,7 +4,7 @@ module "vpc" {
   version = "3.2.0"
 
   # insert the 49 required variables here
-  name = "cloudcasts-${var.infra_env}-vpc"
+  name = "alphabet-${var.infra_env}-vpc"
   cidr = var.vpc_cidr
 
   azs = var.azs
@@ -18,8 +18,8 @@ module "vpc" {
   public_subnets  = var.public_subnets
 
   tags = {
-    Name        = "cloudcasts-${var.infra_env}-vpc"
-    Project     = "cloudcasts.io"
+    Name        = "alphabet-${var.infra_env}-vpc"
+    Project     = "alphabet.io"
     Environment = var.infra_env
     ManagedBy   = "terraform"
   }

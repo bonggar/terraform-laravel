@@ -2,13 +2,13 @@
 # Private Network Communication
 ##
 resource "aws_security_group" "internal" {
-  name        = "cloudcasts-${var.infra_env}-internal-sg"
+  name        = "alphabet-${var.infra_env}-internal-sg"
   description = "Allow internal communication"
   vpc_id      = module.vpc.vpc_id
 
   tags = {
-    Name        = "cloudcasts-${var.infra_env}-internal-sg"
-    Project     = "cloudcasts.io"
+    Name        = "alphabet-${var.infra_env}-internal-sg"
+    Project     = "alphabet.io"
     Environment = var.infra_env
     ManagedBy   = "terraform"
     Role        = "internal"
@@ -39,13 +39,13 @@ resource "aws_security_group_rule" "internal_outbound" {
 # Public Web Communication
 ##
 resource "aws_security_group" "web" {
-  name        = "cloudcasts-${var.infra_env}-web-sg"
+  name        = "alphabet-${var.infra_env}-web-sg"
   description = "Allow external communication"
   vpc_id      = module.vpc.vpc_id
 
   tags = {
-    Name        = "cloudcasts-${var.infra_env}-web-sg"
-    Project     = "cloudcasts.io"
+    Name        = "alphabet-${var.infra_env}-web-sg"
+    Project     = "alphabet.io"
     Environment = var.infra_env
     ManagedBy   = "terraform"
     Role        = "external"

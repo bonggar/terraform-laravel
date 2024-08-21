@@ -1,18 +1,17 @@
 resource "aws_s3_bucket" "artifacts" {
-  bucket = "bgrdev.artifacts"
-  acl    = "private"
-
+  bucket = "alphabet-artifacts-dummy"
+  # default acl si private
   tags = {
-    Name        = "cloudcasts - Artifacts Bucket"
+    Name        = "alphabet - Artifacts Bucket"
     Environment = var.infra_env
-    Project     = "cloudcasts"
+    Project     = "alphabet"
     Role        = "build"
     ManagedBy   = "terraform"
   }
 }
 
 resource "aws_iam_role" "this" {
-  name = "cloudcasts-codebuild-role"
+  name = "alphabet-codebuild-role"
 
   assume_role_policy = <<EOF
 {
@@ -77,8 +76,8 @@ POLICY
 }
 
 resource "aws_codebuild_project" "this" {
-  name = "cloudcasts-app-builder"
-  description   = "Building CloudCasts Sample App"
+  name = "alphabet-app-builder"
+  description   = "Building alphabet App"
   service_role = aws_iam_role.this.arn
 
   build_timeout = 15 # minutes
@@ -104,7 +103,7 @@ resource "aws_codebuild_project" "this" {
 
   logs_config {
     cloudwatch_logs {
-      group_name = "codebuild/cloudcasts"
+      group_name = "codebuild/alphabet"
       stream_name = "builds"
     }
 
@@ -122,9 +121,9 @@ resource "aws_codebuild_project" "this" {
   }
 
   tags = {
-    Name        = "cloudcasts - App Builder"
+    Name        = "alphabet - App Builder"
     Environment = var.infra_env
-    Project     = "cloudcasts"
+    Project     = "alphabet"
     Role        = "build"
     ManagedBy   = "terraform"
   }

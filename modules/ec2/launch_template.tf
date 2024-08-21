@@ -12,7 +12,7 @@ data "template_file" "user_data_app" {
 
 
 resource "aws_launch_template" "launch_template" {
-  name_prefix            = "cloudcasts-${var.infra_env}-${var.infra_role}-"
+  name_prefix            = "alphabet-${var.infra_env}-${var.infra_role}-"
   image_id               = var.ami
   instance_type          = var.instance_type
   user_data              = base64encode(data.template_file.user_data_app.rendered)
@@ -24,9 +24,9 @@ resource "aws_launch_template" "launch_template" {
 
   tags = merge(
     {
-      Name        = "cloudcasts-${var.infra_env}-${var.infra_role}-lt"
+      Name        = "alphabet-${var.infra_env}-${var.infra_role}-lt"
       Role        = var.infra_role
-      Project     = "cloudcasts.io"
+      Project     = "alphabet.io"
       Environment = var.infra_env
       ManagedBy   = "terraform"
     },
@@ -37,9 +37,9 @@ resource "aws_launch_template" "launch_template" {
   tag_specifications {
     resource_type = "instance"
     tags = merge({
-      Name        = "cloudcasts-${var.infra_env}-${var.infra_role}-instance"
+      Name        = "alphabet-${var.infra_env}-${var.infra_role}-instance"
       Role        = var.infra_role
-      Project     = "cloudcasts.io"
+      Project     = "alphabet.io"
       Environment = var.infra_env
       ManagedBy   = "terraform"
     }, var.instance_tags)
@@ -48,9 +48,9 @@ resource "aws_launch_template" "launch_template" {
   tag_specifications {
     resource_type = "volume"
     tags = merge({
-      Name        = "cloudcasts-${var.infra_env}-${var.infra_role}-volume"
+      Name        = "alphabet-${var.infra_env}-${var.infra_role}-volume"
       Role        = var.infra_role
-      Project     = "cloudcasts.io"
+      Project     = "alphabet.io"
       Environment = var.infra_env
       ManagedBy   = "terraform"
     }, var.volume_tags)
@@ -58,7 +58,7 @@ resource "aws_launch_template" "launch_template" {
 }
 
 resource "aws_iam_role" "this" {
-  name = "cloudcasts-${var.infra_env}-${var.infra_role}-role"
+  name = "alphabet-${var.infra_env}-${var.infra_role}-role"
 
   assume_role_policy = <<EOF
 {
@@ -78,7 +78,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "this" {
-  name = "cloudcasts-${var.infra_env}-${var.infra_role}-policy"
+  name = "alphabet-${var.infra_env}-${var.infra_role}-policy"
   role = aws_iam_role.this.id
 
   policy = <<EOF
@@ -102,7 +102,7 @@ resource "aws_iam_role_policy" "this" {
       "Action": [
         "ssm:GetParameter"
       ],
-      "Resource": "arn:aws:ssm:ap-southeast-1:${data.aws_caller_identity.current.account_id}:parameter/cloudcasts/${var.infra_env}/*"
+      "Resource": "arn:aws:ssm:ap-southeast-1:${data.aws_caller_identity.current.account_id}:parameter/alphabet/${var.infra_env}/*"
     }
   ]
 }
@@ -110,7 +110,7 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "this" {
-  name = "cloudcasts-${var.infra_env}-${var.infra_role}-profile"
+  name = "alphabet-${var.infra_env}-${var.infra_role}-profile"
 
   role = aws_iam_role.this.name
 }

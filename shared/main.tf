@@ -10,8 +10,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket  = "bgrdev.terraform"
-    key     = "best-parts/shared.tfstate"
+    bucket  = "alphabet-terraform"
+    key     = "alphabet/shared.tfstate"
     region  = "ap-southeast-1"
   }
 }
